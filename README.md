@@ -22,17 +22,24 @@ $home/dev フォルダなどVagrant専用のフォルダを作る
 vagrant ssh でvagrant に入りdockerをインストールします。
 
 ### 1:インストール
+
 sudo yum install -y docker-io
+
 service docker status
+
 sudo service docker start
 
 管理サーバに公開鍵を作成しておきます。
+
 [root@vagrant-centos6 docker]# ssh-keygen
+
 [root@vagrant-centos6 docker]# cp ~/.ssh/rsa_id.pub ./
 
 ### 2:Dockerfileのbuild
 cd /vagrant/docker
+
 sudo docker build -t="bluemoon/lamp" .
+
 docker run -i -t -d -p 8080:80 -p 2222:22 -p 3306:3306 --name moonlamp -v /vagrant:/vagrant:rw bluemoon/lamp
 
 ## 第３章　ローカルからアクセス
