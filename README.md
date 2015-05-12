@@ -4,7 +4,10 @@ Vagrant Docker for LAMP ( nginx, PHP, MySQL )
 ## 第１章 Vagrant のインストール
 
 ### 1：公式サイトからダウンロードしてインストール
+以下、VirtualBoxとVagrantをそれぞれインストールします。VirtualBoxが古かったり新しすぎたりするとVagrantと相性が悪くなって動かない場合があります。動かない場合は組み合わせが悪いのでバージョンに注意しましょう。
+https://www.virtualbox.org/
 http://www.vagrantup.com/
+
 
 ### 2：ターミナルを起動
 $home/dev フォルダなどVagrant専用のフォルダを作る
@@ -22,6 +25,12 @@ $home/dev フォルダなどVagrant専用のフォルダを作る
 vagrant ssh でvagrant に入りdockerをインストールします。
 
 ### 1:インストール
+vagrant ssh でvagrant に入りdockerをインストールします。
+
+1:インストール
+EPELパッケージを先にインストールします。
+
+rpm -iUvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 
 sudo yum install -y docker-io
 
