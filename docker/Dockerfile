@@ -11,18 +11,24 @@ RUN yum -y install passwd openssh openssh-server openssh-clients sudo
 # Add the ngix and PHP dependent repository
 ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
+
 # Installing nginx 
 RUN yum -y install nginx
-
-# Adding the configuration file of the nginx
-ADD nginx.conf /etc/nginx/nginx.conf
-ADD default.conf /etc/nginx/conf.d/default.conf
 
 # Installing PHP
 RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm  php-mbstring php-common php-mysql
 
+# Adding the configuration file of the nginx
+ADD nginx.conf /etc/nginx/nginx.conf
+ADD default.conf /etc/nginx/conf.d/default.conf
+ADD www.conf /etc/php-fpm.d/www.conf
+RUN mkdir /var/lib/php/session
+RUN chmod 777 /var/lib/php/session
+
 # Installing MySQL
-RUN yum -y install mysql mysql-server
+# Add the MySql dependent repository
+RUN yum install -y http://dev.mysql.com/get/mysql-community-release-el6-5.noarch.rpm
+RUN yum install -y mysql mysql-devel mysql-server  mysql-utilities
 
 # Create user
 RUN echo 'root:docker' | chpasswd
@@ -53,13 +59,11 @@ RUN /etc/init.d/sshd stop
 RUN service mysqld start && \
     /usr/bin/mysqladmin -u root password "root"
 
-# Installing phpmyadmin 
-RUN yum -y install phpmyadmin
-RUN ln -s /usr/share/phpMyAdmin /usr/share/nginx/html
-RUN [ -e /var/lib/php/session ] || mkdir /var/lib/php/session && chmod -R 0777 /var/lib/php/session
-
 # Adding the default file
 ADD index.php /var/www/index.php
+RUN mkdir /vagrant
+RUN mkdir /vagrant/html
+RUN ln -s /vagrant/html /var/www
 
 ######################################
 #  Supervisord  ########################################
