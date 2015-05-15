@@ -11,7 +11,6 @@ RUN yum -y install passwd openssh openssh-server openssh-clients sudo
 # Add the ngix and PHP dependent repository
 ADD nginx.repo /etc/yum.repos.d/nginx.repo
 
-
 # Installing nginx 
 RUN yum -y install nginx
 
@@ -19,6 +18,7 @@ RUN yum -y install nginx
 RUN yum -y --enablerepo=remi,remi-php56 install nginx php-fpm  php-mbstring php-common php-mysql
 
 # Adding the configuration file of the nginx
+ADD default.nginx.conf /etc/nginx/conf.d/default.conf
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD default.conf /etc/nginx/conf.d/default.conf
 ADD www.conf /etc/php-fpm.d/www.conf
@@ -59,8 +59,7 @@ RUN /etc/init.d/sshd stop
 RUN service mysqld start && \
     /usr/bin/mysqladmin -u root password "root"
 
-# Adding the default file
-ADD index.php /var/www/index.php
+# Set root path with default.nginx.conf share the local foler in vagrant
 RUN mkdir /vagrant
 RUN mkdir /vagrant/html
 RUN ln -s /vagrant/html /var/www

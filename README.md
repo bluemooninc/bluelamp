@@ -56,10 +56,16 @@ docker run -i -t -d -p 8080:80 -p 2222:22 -p 3306:3306 --name moonlamp -v /vagra
 ### 1:ブラウザから
 http://192.168.33.10:8080/
 
+phpMyAdmin や WordPress などは /vagrant/html/ フォルダにローカルで配置します。
+以下にアクセスすると動作します。
+
+http://192.168.33.10:8080/phpMyAdmin
+http://192.168.33.10:8080/wordpress
+
 ### 2:ターミナルから
 ssh -p 2222 docker@192.168.33.10
 PW は docker
 
-### 3:MySQLクライアントから
-mysql:192.168.33.10:3306 root
+### 3:MySQL Workbench / Aquafold 等から
+192.168.33.10:3306 root
 pw は root
